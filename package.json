@@ -3,8 +3,9 @@
   "name": "reactinterview",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://bocsir.github.io/movie-dropdown",
-  "scripts": {
+  
+    "homepage": "https://yourusername.github.io/your-repo-name",
+    "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",

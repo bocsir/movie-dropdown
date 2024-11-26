@@ -20,24 +20,31 @@ const MovieSearch = ({
 
   return (
     <div className="ml-3" onBlur={handleBlur}>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <label htmlFor="movie-search" className="text-lg">
           select a movie:
         </label>
-        <input
-          name="movie-search"
-          className="text-black pl-2 text-xl font-bold"
-          type="text"
-          value={isFocused || value.length > 0 ? value : defaultValue}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setIsFocused(true)}
-          style={{ width: `${Math.max(value.length, defaultValue.length) + 1}ch` }}
-        ></input>
+          <input
+            name="movie-search"
+            className="text-black pl-2 text-xl font-bold h-10"
+            type="text"
+            value={isFocused || value.length > 0 ? value : defaultValue}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            style={{
+              width: `${Math.max(value.length, defaultValue.length) + 1}ch`,
+            }}
+          ></input>
       </div>
       {isFocused && (
         <ul className="">
           {currentMovieResults.map((movie, idx) => (
-            <li key={idx} className={`${idx !== currentMovieResults.length - 1 ? "" : "border-b"} border-t border-r border-l w-96 text-left hover:text-amber-400 transition-colors duration-100`}>
+            <li
+              key={idx}
+              className={`${
+                idx !== currentMovieResults.length - 1 ? "" : "border-b"
+              } border-t border-r border-l w-96 text-left hover:text-amber-400 transition-colors duration-100`}
+            >
               <button
                 onClick={() => setSelectedValue(movie)}
                 className={`${
