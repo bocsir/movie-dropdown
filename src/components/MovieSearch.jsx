@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const MovieSearch = ({
   value,
@@ -10,6 +10,7 @@ const MovieSearch = ({
   currentMovieResults,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef(null);
 
   const handleBlur = (e) => {
     // Check if the blur event is related to the dropdown
@@ -18,23 +19,44 @@ const MovieSearch = ({
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        setIsFocused(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isFocused) {
+      inputRef.current.focus();
+    } else {
+      inputRef.current.blur();
+    }
+  }, [isFocused]);
+
   return (
     <div className="ml-3" onBlur={handleBlur}>
       <div className="flex flex-col gap-2">
         <label htmlFor="movie-search" className="text-lg">
           select a movie:
         </label>
-          <input
-            name="movie-search"
-            className="text-black pl-2 text-xl font-bold h-10"
-            type="text"
-            value={isFocused || value.length > 0 ? value : defaultValue}
-            onChange={(e) => onChange(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            style={{
-              width: `${Math.max(value.length, defaultValue.length) + 1}ch`,
-            }}
-          ></input>
+        <input
+          ref={inputRef}
+          name="movie-search"
+          className="text-black pl-2 text-xl font-bold h-10"
+          type="text"
+          value={isFocused || value.length > 0 ? value : defaultValue}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          style={{
+            width: `${Math.max(value.length, defaultValue.length) + 1}ch`,
+          }}
+        />
       </div>
       {isFocused && (
         <ul className="">
